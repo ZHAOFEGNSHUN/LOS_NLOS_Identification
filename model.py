@@ -16,8 +16,8 @@ class MWTCNN(nn.Module):
         self.relu = nn.ReLU()
 
         self.fc1 = nn.Linear(2048, 512)
-        self.fc1 = nn.Linear(512, 128)
-        self.fc1 = nn.Linear(128, 32)
+        self.fc2 = nn.Linear(512, 128)
+        self.fc3 = nn.Linear(128, 32)
 
         self.classifier = nn.Linear(32, 2)
 

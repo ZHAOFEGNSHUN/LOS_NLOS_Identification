@@ -52,8 +52,8 @@ def label_to_onehot(target, num_classes=2):
 
 if __name__ == '__main__':
     # Generate the datasets from the npy file
-    label_array_path = './data/dataset/UWB_dataset_whole_labels.npy'
-    image_array_path = './data/dataset/UWB_dataset_whole_gray_images.npy'
+    label_array_path = '/Users/bytedance/Desktop/ZFS/LOS_NLOS_Identification/data/dataset/labels.npy'
+    image_array_path = '/Users/bytedance/Desktop/ZFS/LOS_NLOS_Identification/data/grayscale_images/gray_images_part.npy'
     train_dataset, val_dataset, test_dataset = generate_datasets(image_array_path=image_array_path,
                                                                  label_array_path=label_array_path)
     print(len(train_dataset))

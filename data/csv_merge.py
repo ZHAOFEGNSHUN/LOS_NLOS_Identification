@@ -1,31 +1,27 @@
 import os
 import pandas as pd
-from tqdm import tqdm
 
-def merge_csv_files(folder_path, output_file):
-    # 获取文件夹中的所有 CSV 文件
-    csv_files = [file for file in os.listdir(folder_path) if file.endswith('.csv')]
+# 指定CSV文件所在的文件夹路径
+folder_path = '/Users/bytedance/Desktop/ZFS/LOS_NLOS_Identification/data/dataset'
 
-    # 如果没有 CSV 文件，则打印提示信息并返回
-    if not csv_files:
-        print("文件夹中没有找到 CSV 文件。")
-        return
+# 获取文件夹中所有CSV文件的文件名列表
+csv_files = [file for file in os.listdir(folder_path) if file.endswith('.csv')]
 
-    # 读取第一个 CSV 文件，创建合并后的 DataFrame
-    first_file_path = os.path.join(folder_path, csv_files[0])
-    merged_df = pd.read_csv(first_file_path)
+# 初始化一个空的DataFrame来存储合并后的数据
+merged_data = pd.DataFrame()
 
-    # 循环读取并合并其余 CSV 文件
-    for csv_file in tqdm(csv_files[1:]):
-        csv_file_path = os.path.join(folder_path, csv_file)
-        df = pd.read_csv(csv_file_path)
-        merged_df = pd.concat([merged_df, df], ignore_index=True)
+# 遍历每个CSV文件，读取并合并数据
+for csv_file in csv_files:
+    file_path = os.path.join(folder_path, csv_file)
+    df = pd.read_csv(file_path)
+    merged_data = pd.concat([merged_data, df])
 
-    # 将合并后的 DataFrame 写入新的 CSV 文件
-    merged_df.to_csv(output_file, index=False)
-    print(f"CSV 文件合并完成，保存为 {output_file}")
+# 将第一列为1的数据排在前面，为0的数据排在后面，并重新索引
+sorted_data = pd.concat([merged_data[merged_data.iloc[:, 0] == 1], 
+                         merged_data[merged_data.iloc[:, 0] == 0]])
 
-# 用法示例
-folder_path = "/Users/bytedance/Desktop/ZFS/LOS_NLOS_Identification/data"
-output_file = "merged_output.csv"
-merge_csv_files(folder_path, output_file)
+# # 将合并后的数据写入一个新的CSV文件
+output_file_path = 'merged_data.csv'
+sorted_data.to_csv(output_file_path, index=False)
+print(sorted_data.head(10))
+# 21000

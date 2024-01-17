@@ -32,9 +32,10 @@ def transform_to_image(MWT_res):
 
 
 if __name__ == '__main__':
-    array_test = np.load('./npy_files/uwb_dataset_all.npy')
-    CIR_vector_LOS = array_test[0][15:]
-    CIR_vector_NLOS = array_test[2][15:]
+    array_test = np.load('/Users/bytedance/Desktop/ZFS/LOS_NLOS_Identification/data/dataset/CIRs.npy')
+    CIR_vector_LOS = array_test[21002, :]
+    CIR_vector_NLOS = array_test[0, :]
+    print(CIR_vector_LOS)
     ''' Compute the wavelet transform '''
     # Define scales for the wavelet transform
     scales = np.arange(1, 129)
@@ -43,61 +44,67 @@ if __name__ == '__main__':
     grayscale_image_LOS = transform_to_image(wt_LOS)
     grayscale_image_NLOS = transform_to_image(wt_NLOS)
 
-    """ Plot the power-delay profile. """
-    plt.stem(range(1016), np.abs(CIR_vector_LOS) ** 2, use_line_collection=True)
-    plt.xlabel('Time')
-    plt.ylabel('Power')
-    plt.title('Power Delay Profile(LOS)')
-    plt.grid(True)
-    plt.show()
+    # """ Plot the power-delay profile. """
+    # plt.subplot(1, 2, 1)
+    # plt.stem(range(1016), np.abs(CIR_vector_LOS) ** 2, use_line_collection=True)
+    # plt.xlabel('Time')
+    # plt.ylabel('Power')
+    # plt.title('Power Delay Profile(LOS)')
+    # plt.grid(True)
+    # # plt.show()
 
-    plt.stem(range(1016), np.abs(CIR_vector_NLOS) ** 2, use_line_collection=True)
-    plt.xlabel('Time')
-    plt.ylabel('Power')
-    plt.title('Power Delay Profile(NLOS)')
-    plt.grid(True)
-    plt.show()
+    # plt.subplot(1, 2, 2)
+    # plt.stem(range(1016), np.abs(CIR_vector_NLOS) ** 2, use_line_collection=True)
+    # plt.xlabel('Time')
+    # plt.ylabel('Power')
+    # plt.title('Power Delay Profile(NLOS)')
+    # plt.grid(True)
 
-    ''' Plot the real part of the wavelet transform '''
-    plt.figure(figsize=(7, 5))
-    frequencies = 1 / scales
-    time = np.arange(10)
-    plt.imshow(np.abs(wt_LOS) ** 2, aspect='auto', cmap='jet',
-               extent=[time[0], time[-1], frequencies[-1],
-                       frequencies[0]])  # Adjust the extent to match frequencies and time
-    plt.colorbar(label='Magnitude')
-    plt.title('Wavelet Transform Result')
-    plt.xlabel('Time (ms)')
-    plt.ylabel('Frequency (Hz)')
-    plt.xlim([6.5, 6.8])
-    plt.ylim([0.98, 1])
-    plt.show()
+    # plt.tight_layout()
+    # plt.show()
 
-    plt.figure(figsize=(7, 5))
-    frequencies = 1 / scales
-    time = np.arange(10)
-    plt.imshow(np.abs(wt_NLOS) ** 2, aspect='auto', cmap='jet',
-               extent=[time[0], time[-1], frequencies[-1],
-                       frequencies[0]])  # Adjust the extent to match frequencies and time
-    plt.colorbar(label='Magnitude')
-    plt.title('Wavelet Transform Result')
-    plt.xlabel('Time (ms)')
-    plt.ylabel('Frequency (Hz)')
-    plt.xlim([6.5, 6.8])
-    plt.ylim([0.98, 1])
-    plt.show()
+    # ''' Plot the real part of the wavelet transform '''
+    # plt.figure(figsize=(10, 5))
+    # plt.subplot(1, 2, 1)
+    # frequencies = 1 / scales
+    # time = np.arange(10)
+    # plt.imshow(np.abs(wt_LOS) ** 2, aspect='auto', cmap='jet',
+    #            extent=[time[0], time[-1], frequencies[-1],
+    #                    frequencies[0]])  # Adjust the extent to match frequencies and time
+    # plt.colorbar(label='Magnitude')
+    # plt.title('Wavelet Transform Result_LOS')
+    # plt.xlabel('Time (ms)')
+    # plt.ylabel('Frequency (Hz)')
+    # plt.xlim([6.5, 6.8])
+    # plt.ylim([0.98, 1])
+    
+
+    # plt.subplot(1, 2, 2)
+    # frequencies = 1 / scales
+    # time = np.arange(10)
+    # plt.imshow(np.abs(wt_NLOS) ** 2, aspect='auto', cmap='jet',
+    #            extent=[time[0], time[-1], frequencies[-1],
+    #                    frequencies[0]])  # Adjust the extent to match frequencies and time
+    # plt.colorbar(label='Magnitude')
+    # plt.title('Wavelet Transform Result_NLOS')
+    # plt.xlabel('Time (ms)')
+    # plt.ylabel('Frequency (Hz)')
+    # plt.xlim([6.5, 6.8])
+    # plt.ylim([0.98, 1])
+    # plt.show()
 
     """ Plot the grayscale image. """
-    plt.figure(figsize=(5, 5))
+    plt.figure(figsize=(10, 5))
+    plt.subplot(1, 2, 1)
     plt.imshow(grayscale_image_LOS, cmap='gray')
     plt.colorbar(label='Intensity')
-    plt.title('Grayscale Image')
+    plt.title('Grayscale Image_LOS')
     plt.axis('off')
-    plt.show()
+    # plt.show()
 
-    plt.figure(figsize=(5, 5))
+    plt.subplot(1, 2, 2)
     plt.imshow(grayscale_image_NLOS, cmap='gray')
     plt.colorbar(label='Intensity')
-    plt.title('Grayscale Image')
+    plt.title('Grayscale Image_NLOS')
     plt.axis('off')
     plt.show()
